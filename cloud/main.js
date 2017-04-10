@@ -1,11 +1,11 @@
-var twilio = require('twilio')('ACbdcc4de40bf470456400759ca79ae61f', '831b47ca0f6698d20d344670dfc45104');
+//var twilio = require('twilio')('ACbdcc4de40bf470456400759ca79ae61f', '831b47ca0f6698d20d344670dfc45104');
 
 Parse.Cloud.define('hello', function(req, res) {
   res.success('Hi');
 });
 
 
-
+/*
 Parse.Cloud.define("sendVerificationCode", function(request, response) {
     var verificationCode = Math.floor(Math.random()*999999);
     var user = request.user;
@@ -39,7 +39,7 @@ Parse.Cloud.define("verifyPhoneNumber", function(request, response) {
 });
 
 // Sample new Parse Server Cloud Code
-/*Parse.Cloud.define('getMessagesForUser', function(request, response) {
+Parse.Cloud.define('getMessagesForUser', function(request, response) {
   var user = request.user; // request.user replaces Parse.User.current()
   var token = user.getSessionToken(); // get session token from request.user
 
