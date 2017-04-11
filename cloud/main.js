@@ -8,9 +8,7 @@ Parse.Cloud.define('hello', function(req, res) {
 
 Parse.Cloud.define("sendVerificationCode", function(request, response) {
     var verificationCode = 12345;//Math.floor(Math.random()*999999);
-    var user = request.user;
-    user["phoneVerificationCode"] = verificationCode;
-    user.save();
+    
     
     twilio.sendSms({
         From: "+1786420493",
