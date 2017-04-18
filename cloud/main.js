@@ -7,7 +7,7 @@ Parse.Cloud.define('hello', function(req, res) {
 
 
 Parse.Cloud.define("sendVerificationCode", function(request, response) {
-    var verificationCode = 12345;//Math.floor(Math.random()*999999);
+    var verificationCode = Math.floor(Math.random()*999999);
     
     
     twilio.sendSms({
@@ -18,6 +18,7 @@ Parse.Cloud.define("sendVerificationCode", function(request, response) {
         if (err) {
           response.error(err);
         } else { 
+          response.json({ code: verificationCode });
           response.success("Success");
         }
     });
