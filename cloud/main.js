@@ -18,8 +18,7 @@ Parse.Cloud.define("sendVerificationCode", function(request, response) {
         if (err) {
           response.error(err);
         } else { 
-          response.json({ code: verificationCode });
-          response.success("Success");
+          response.success(verificationCode);
         }
     });
 });
