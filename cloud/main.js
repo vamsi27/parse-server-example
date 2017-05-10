@@ -26,8 +26,8 @@ Parse.Cloud.define("sendVerificationCode", function(request, response) {
 Parse.Cloud.define("createNewUser", function(request, response) {
 
     // extract passed in details 
-    var username = request.params.username
-    var pw = request.params.password
+    var username = request.params["username"]
+    var pw = request.params["password"]
     var email = request.params.email
 
     // cloud local calls
