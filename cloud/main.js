@@ -25,7 +25,12 @@ Parse.Cloud.define("sendVerificationCode", function(request, response) {
 
 Parse.Cloud.define("createNewUser", function(request, response) {
 
-    for(count = 1; count < 10; count++){
+    var success = 0
+    var fails = 0
+
+    for(count = 1; count <= 5; count++){
+
+      //100000000
 
         var phnNum = 1000000000 + Math.floor(Math.random()*8999999999);
 
@@ -49,14 +54,17 @@ Parse.Cloud.define("createNewUser", function(request, response) {
             // and then save again!! using user.save
             // you will need to use Parse.Cloud.useMasterKey(); 
 
+            success = success + 1
+
         },
         error: function(user, error) {
             //response.error("Sorry! " + error.message);
+            fails = fails + 1
         } });
                
     }
 
-    
+    response.success('Pass = ' + success.toString() + ' Fail = ' + fails.toString())
 
 });
 
