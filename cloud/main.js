@@ -23,6 +23,35 @@ Parse.Cloud.define("sendVerificationCode", function(request, response) {
     });
 });
 
+Parse.Cloud.define("createNewUser", function(request, response) {
+
+    // extract passed in details 
+    var username = request.params.username
+    var pw = request.params.password
+    var email = request.params.email
+
+    // cloud local calls
+    var user = new Parse.User();
+    user.set("username", username);
+    user.set("password", pw);
+    user.set("email", email);
+
+    user.signUp(null, {
+        success: function(user) {       
+        response.success("working");
+        // do other stuff here 
+        // like set ACL
+        // create relationships
+        // and then save again!! using user.save
+        // you will need to use Parse.Cloud.useMasterKey(); 
+
+    },
+    error: function(user, error) {
+        response.error("Sorry! " + error.message);
+    } });
+
+});
+
 
 Parse.Cloud.define("verifyPhoneNumber", function(request, response) {
     var user = request.user;
