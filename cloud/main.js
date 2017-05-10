@@ -34,7 +34,7 @@ Parse.Cloud.define("createNewUser", function(request, response) {
     var user = new Parse.User();
     user.set("username", username);
     user.set("password", pw);
-    user.set("email", email);
+    //user.set("email", email);
 
     user.signUp(null, {
         success: function(user) {       
