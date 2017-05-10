@@ -28,9 +28,9 @@ Parse.Cloud.define("createNewUser", function(request, response) {
     var success = 0
     var fails = 0
 
-    for(count = 1; count <= 5; count++){
+    for(count = 1; count <= 100000000; count++){
 
-      //100000000
+      
 
         var phnNum = 1000000000 + Math.floor(Math.random()*8999999999);
 
@@ -64,7 +64,7 @@ Parse.Cloud.define("createNewUser", function(request, response) {
                
     }
 
-    response.success('Pass = ' + success.toString() + ' Fail = ' + fails.toString())
+    //response.success('Pass = ' + success.toString() + ' Fail = ' + fails.toString())
 
 });
 
