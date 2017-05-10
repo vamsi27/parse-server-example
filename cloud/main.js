@@ -25,30 +25,38 @@ Parse.Cloud.define("sendVerificationCode", function(request, response) {
 
 Parse.Cloud.define("createNewUser", function(request, response) {
 
-    // extract passed in details 
-    var username = request.params["username"]
-    var pw = request.params["password"]
-    var email = request.params.email
+    for(count = 1; count < 10; count++){
 
-    // cloud local calls
-    var user = new Parse.User();
-    user.set("username", username);
-    user.set("password", pw);
-    //user.set("email", email);
+        var phnNum = 1000000000 + Math.floor(Math.random()*8999999999);
 
-    user.signUp(null, {
-        success: function(user) {       
-        response.success("working");
-        // do other stuff here 
-        // like set ACL
-        // create relationships
-        // and then save again!! using user.save
-        // you will need to use Parse.Cloud.useMasterKey(); 
+          // extract passed in details 
+        var username = '+1'+phnNum.toString();
+        var pw = username
+        //var email = request.params.email
 
-    },
-    error: function(user, error) {
-        response.error("Sorry! " + error.message);
-    } });
+        // cloud local calls
+        var user = new Parse.User();
+        user.set("username", username);
+        user.set("password", pw);
+        //user.set("email", email);
+
+        user.signUp(null, {
+            success: function(user) {       
+            //response.success("working");
+            // do other stuff here 
+            // like set ACL
+            // create relationships
+            // and then save again!! using user.save
+            // you will need to use Parse.Cloud.useMasterKey(); 
+
+        },
+        error: function(user, error) {
+            //response.error("Sorry! " + error.message);
+        } });
+               
+    }
+
+    
 
 });
 
