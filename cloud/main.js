@@ -28,7 +28,7 @@ Parse.Cloud.define("createNewUser", function(request, response) {
     var success = 0
     var fails = 0
 
-    for(count = 1; count <= 100000000; count++){
+    for(count = 1; count <= 10; count++){
 
       
 
