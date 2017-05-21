@@ -102,8 +102,9 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
             }
             else{
               console.log('Member not found - Need to create new user');
-              response.error('Member not found error -> ' + error.message);
               createNewParseUser(members[i], taskId);
+              response.error('Member not found but account may have been created -> ' + error.message);
+              
           }
             },
             error: function(object, error) {
@@ -163,15 +164,6 @@ function createNewParseUser(username, taskId){
                   //response.error('internal Task fetch error ' + error.message);
                 }
               });
-
-
-
-
-
-
-
-              
-
           },
           error: function(user, error) {
             console.log('Sorry! Culdn''t signup the user -> ' + error.message)
