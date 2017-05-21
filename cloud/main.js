@@ -73,21 +73,38 @@ Parse.Cloud.define("createNewUser", function(request, response) {
 
 Parse.Cloud.define("createTask", function(request, response) {
     
-    var name = request.params["tskName"]
-    var description = request.params["tskDescription"]
-    //var dp = request.params["tskIDisplayImage"]
-    //var admin = request.params["tskAdmin"]
+    var taskId = request.params["tskId"]
     var members = request.params["tskMembers"] //members usernames actually
     
-
-
     var Task = Parse.Object.extend("Task");
-    var tsk = new Task();
+    var query = new Parse.Query(Task);
+    query.get(taskId, {
+      success: function(task) {
+        // The object was retrieved successfully.
 
-    tsk.set("Name", name);
-    tsk.set("Description", description);
-    //tsk.set("DisplayImage", dp);
-    //tsk.set("Admin", admin);
+        for(i = 1; i < members.length; i++){
+
+          var userQuery = new Parse.Query(Parse.User);
+          userQuery.equalTo("username", members[i]);  
+          userQuery.find({
+            success: function(u) {
+              // Do stuff
+              task.add("Members", u);
+              task.save();
+            },
+            error: function(object, error) {
+                response.error("Sorry! " + error.message);
+                
+            }
+          });
+
+        }
+      },
+      error: function(object, error) {
+        // The object was not retrieved successfully.
+        // error is a Parse.Error with an error code and message.
+      }
+    });
 
     // fetch users
     var query = new Parse.Query(Parse.User);
