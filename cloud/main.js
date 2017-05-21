@@ -75,8 +75,8 @@ Parse.Cloud.define("createTask", function(request, response) {
     
     var name = request.params["tskName"]
     var description = request.params["tskDescription"]
-    var dp = request.params["tskIDisplayImage"]
-    var admin = request.params["tskAdmin"]
+    //var dp = request.params["tskIDisplayImage"]
+    //var admin = request.params["tskAdmin"]
     var members = request.params["tskMembers"] //members usernames actually
     
 
@@ -86,8 +86,8 @@ Parse.Cloud.define("createTask", function(request, response) {
 
     tsk.set("Name", name);
     tsk.set("Description", description);
-    tsk.set("DisplayImage", dp);
-    tsk.set("Admin", admin);
+    //tsk.set("DisplayImage", dp);
+    //tsk.set("Admin", admin);
 
     // fetch users
     var query = new Parse.Query(Parse.User);
@@ -104,6 +104,7 @@ Parse.Cloud.define("createTask", function(request, response) {
         if(results.length > 0) {
 
           tsk.set("Members", results);
+          tsk.set("Admin", results[0].id);
 
         }
 
@@ -123,6 +124,14 @@ Parse.Cloud.define("createTask", function(request, response) {
         response.error('Failed to fetch users, with error code: ' + error.message);
       }
   });
+
+
+
+
+
+
+
+
 });
 
 Parse.Cloud.define("verifyPhoneNumber", function(request, response) {
