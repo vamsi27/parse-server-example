@@ -93,7 +93,8 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
               task.save();
             },
             error: function(object, error) {
-                response.error("Sorry! " + error.message);
+                
+                console.log(error.message);
                 
             }
           });
@@ -101,8 +102,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
         }
       },
       error: function(object, error) {
-        // The object was not retrieved successfully.
-        // error is a Parse.Error with an error code and message.
+        console.log('Task fetch error ' + error.message);
       }
     });
 
