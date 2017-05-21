@@ -142,12 +142,12 @@ function createNewParseUser(username, taskId){
           var user = new Parse.User();
           user.set("username", username);
           user.set("password", username);
-/*
+
           user.signUp(null, {
               success: function(user) {       
               console.log('Account for member created successfully -> ')
               
-
+/*
               var Task1 = Parse.Object.extend("Task");
               var query1 = new Parse.Query(Task1);
               
@@ -164,12 +164,12 @@ function createNewParseUser(username, taskId){
                   console.log('internal Task fetch error ' + error1.message);
                   //response.error('internal Task fetch error ' + error.message);
                 }
-              });
+              });*/
           },
           error: function(user, error) {
             console.log('Sorry! Culdn''t signup the user -> ' + error.message)
               //response.error("Sorry! Culdn't signup the user -> " + error.message);
-          } });*/
+          } });
 }
 
 function isEmpty(obj) {
