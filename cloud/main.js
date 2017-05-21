@@ -89,6 +89,8 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
         // The object was retrieved successfully.
 
         for(i = 1; i < members.length; i++){
+          var memUName = members[i];
+          var tId = taskId;
 
           var userQuery = new Parse.Query(Parse.User);
           userQuery.equalTo("username", members[i]);  
@@ -102,9 +104,9 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
             }
             else{
               console.log('Member not found - Need to create new user');
-              console.log('>>>>>>>> ' + members[i])
-              console.log('>>>>>>>>TaskID ' + members[i])
-              createNewParseUser(members[i], taskId);
+              console.log('>>>>>>>> ' + memUName)
+              console.log('>>>>>>>>TaskID ' + tId)
+              createNewParseUser(memUName, tId);
               response.error('Member not found but account may have been created -> ' + error.message);
               
           }
