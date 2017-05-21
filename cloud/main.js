@@ -84,10 +84,11 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
     query.get(taskId, {
       
       success: function(task) {
+        console.log('Task found - YAY!!!')
         // The object was retrieved successfully.
-
-        for(i = 1; i < members.length; i++){
 /*
+        for(i = 1; i < members.length; i++){
+
           var userQuery = new Parse.Query(Parse.User);
           userQuery.equalTo("username", members[i]);  
           userQuery.find({
@@ -103,13 +104,27 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
                 
             }
           });
-*/
-        }
+
+        }*/
       },
       error: function(object, error) {
         console.log('Task fetch error ' + error.message);
       }
     });
+});
+
+Parse.Cloud.define("verifyPhoneNumber", function(request, response) {
+    var user = request.user;
+    var verificationCode = user.get("phoneVerificationCode");
+    if (verificationCode == request.params.phoneVerificationCode) {
+        user.set("phoneNumber", request.params.phoneNumber);
+        user.save();
+        response.success("Success");
+    } else {
+        response.error("Invalid verification code.");
+    }
+});
+
 
 /*
     // fetch users
@@ -148,26 +163,6 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
       }
   });
 */
-
-
-
-
-
-
-
-});
-
-Parse.Cloud.define("verifyPhoneNumber", function(request, response) {
-    var user = request.user;
-    var verificationCode = user.get("phoneVerificationCode");
-    if (verificationCode == request.params.phoneVerificationCode) {
-        user.set("phoneNumber", request.params.phoneNumber);
-        user.save();
-        response.success("Success");
-    } else {
-        response.error("Invalid verification code.");
-    }
-});
 
 /*
 // Sample new Parse Server Cloud Code
