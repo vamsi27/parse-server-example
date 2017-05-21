@@ -103,7 +103,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
             else{
               console.log('Member not found - Need to create new user');
               response.error('Member not found error -> ' + error.message);
-              //createNewParseUser(members[i], task);
+              createNewParseUser(members[i], taskId);
           }
             },
             error: function(object, error) {
@@ -135,7 +135,7 @@ Parse.Cloud.define("verifyPhoneNumber", function(request, response) {
     }
 });
 
-function createNewParseUser(username, task){
+function createNewParseUser(username, taskId){
 
           var user = new Parse.User();
           user.set("username", username);
@@ -144,10 +144,33 @@ function createNewParseUser(username, task){
           user.signUp(null, {
               success: function(user) {       
               console.log('Account for member created successfully -> ')
-              task.add("Members", user);
+              
+
+              var Task = Parse.Object.extend("Task");
+    var query = new Parse.Query(Task);
+    
+    query.get(taskId, {
+      
+      success: function(task) {
+        console.log('Task found')
+        task.add("Members", u);
               task.save();
-              console.log('Member added to task')
+        console.log('Member added to task')
               response.success('Account for member created successfully, and member added to task')
+},
+      error: function(object, error) {
+        console.log('internal Task fetch error ' + error.message);
+        response.error('internal Task fetch error ' + error.message);
+      }
+    });
+
+
+
+
+
+
+
+              
 
           },
           error: function(user, error) {
