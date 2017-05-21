@@ -92,7 +92,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
 
           var userQuery = new Parse.Query(Parse.User);
           userQuery.equalTo("username", members[i]);  
-          userQuery.find((members[i], taskId){
+          userQuery.find({
             success: function(u) {
               if (!isEmpty(u)){
               task.add("Members", u);
