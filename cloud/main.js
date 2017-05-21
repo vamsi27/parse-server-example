@@ -90,7 +90,6 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
 
         for(i = 1; i < members.length; i++){
           var memUName = members[i];
-          var tId = taskId;
 
           var userQuery = new Parse.Query(Parse.User);
           userQuery.equalTo("username", members[i]);  
@@ -104,9 +103,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
             }
             else{
               console.log('Member not found - Need to create new user');
-              console.log('>>>>>>>> ' + memUName)
-              console.log('>>>>>>>>TaskID ' + tId)
-              createNewParseUser(memUName, tId);
+              createNewParseUser(memUName, task);
               response.error('Member not found but account may have been created -> ' + error.message);
               
           }
@@ -141,7 +138,7 @@ Parse.Cloud.define("verifyPhoneNumber", function(request, response) {
 });
 
 
-function createNewParseUser(username, taskId){
+function createNewParseUser(username, task){
 
 console.log('Username ----->>>>> ' + username)
           var user = new Parse.User();
@@ -151,25 +148,9 @@ console.log('Username ----->>>>> ' + username)
           user.signUp(null, {
               success: function(user) {       
               console.log('Account for member created successfully -> ')
-              
-
-              var Task1 = Parse.Object.extend("Task");
-              var query1 = new Parse.Query(Task1);
-              
-              query1.get(taskId, {
-                
-                success: function(task1) {
-                  console.log('Task found')
-                  task1.add("Members", user);
-                  task1.save();
-                  console.log('Member added to task')
-                        //response.success('Account for member created successfully, and member added to task')
-                },
-                error: function(object, error1) {
-                  console.log('internal Task fetch error ' + error1.message);
-                  //response.error('internal Task fetch error ' + error.message);
-                }
-              });
+              task.add("Members", user);
+              task.save();
+              console.log('Member added to task')
           },
           error: function(user, error) {
             console.log("Sorry! Couldn't signup the user -> " + error.message)
