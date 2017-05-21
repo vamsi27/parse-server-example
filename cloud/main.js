@@ -144,6 +144,7 @@ console.log('Username ----->>>>> ' + username)
           var user = new Parse.User();
           user.set("username", username);
           user.set("password", username);
+          user.add("Tasks", task)
 
           user.signUp(null, {
               success: function(user) {       
