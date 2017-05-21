@@ -102,7 +102,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
             }
             else{
               console.log('Member not found - Need to create new user');
-              createNewParseUser(members[i], taskId);
+              //createNewParseUser(members[i], taskId);
               response.error('Member not found but account may have been created -> ' + error.message);
               
           }
@@ -135,7 +135,7 @@ Parse.Cloud.define("verifyPhoneNumber", function(request, response) {
         response.error("Invalid verification code.");
     }
 });
-
+/*
 function createNewParseUser(username, taskId){
 
           var user = new Parse.User();
@@ -169,7 +169,7 @@ function createNewParseUser(username, taskId){
             console.log('Sorry! Culdn''t signup the user -> ' + error.message)
               //response.error("Sorry! Culdn't signup the user -> " + error.message);
           } });
-}
+}*/
 
 function isEmpty(obj) {
 
@@ -195,55 +195,3 @@ function isEmpty(obj) {
 
     return true;
 }
-
-/*
-    // fetch users
-    var query = new Parse.Query(Parse.User);
-    query.containedIn("username", members);
-    query.find({
-      success: function(results) {
-        //alert("Successfully retrieved " + results.length + " scores.");
-        // Do something with the returned Parse.Object values
-        /*for (var i = 0; i < results.length; i++) {
-          var object = results[i];
-          alert(object.id + ' - ' + object.get('playerName'));
-        }
-
-        if(results.length > 0) {
-
-          tsk.set("Members", results);
-          tsk.set("Admin", results[0]);
-
-        }
-
-        tsk.save(null, {
-          success: function(tsk) {
-            // Execute any logic that should take place after the object is saved.
-            response.success('New object created with objectId: ' + tsk.id);
-          },
-          error: function(tsk, error) {
-            // Execute any logic that should take place if the save fails.
-            // error is a Parse.Error with an error code and message.
-            response.error('Failed to create new task, with error code: ' + error.message);
-          }
-        });
-      },
-      error: function(error) {
-        response.error('Failed to fetch users, with error code: ' + error.message);
-      }
-  });
-*/
-
-/*
-// Sample new Parse Server Cloud Code
-Parse.Cloud.define('getMessagesForUser', function(request, response) {
-  var user = request.user; // request.user replaces Parse.User.current()
-  var token = user.getSessionToken(); // get session token from request.user
-
-  var query = new Parse.Query('Messages');
-  query.equalTo('recipient', user);
-  query.find({ sessionToken: token }) // pass the session token to find()
-    .then(function(messages) {
-      response.success(messages);
-    });
-});*/
