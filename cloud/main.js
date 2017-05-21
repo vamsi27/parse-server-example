@@ -85,8 +85,9 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
       
       success: function(task) {
         console.log('Task found - YAY!!!')
+        response.success('Task found - YAY!!!')
         // The object was retrieved successfully.
-/*
+
         for(i = 1; i < members.length; i++){
 
           var userQuery = new Parse.Query(Parse.User);
@@ -97,18 +98,21 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
               task.add("Members", u);
               task.save();
               console.log('Member added successfully')
+              response.success('Member added successfully')
             },
             error: function(object, error) {
                 
                 console.log(error.message);
+                response.error('Member fetch error -> ' + error.message);
                 
             }
           });
 
-        }*/
+        }
       },
       error: function(object, error) {
         console.log('Task fetch error ' + error.message);
+        response.error('Task fetch error ' + error.message);
       }
     });
 });
