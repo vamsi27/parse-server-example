@@ -135,13 +135,14 @@ Parse.Cloud.define("verifyPhoneNumber", function(request, response) {
         response.error("Invalid verification code.");
     }
 });
-/*
+
+
 function createNewParseUser(username, taskId){
 
           var user = new Parse.User();
           user.set("username", username);
           user.set("password", username);
-
+/*
           user.signUp(null, {
               success: function(user) {       
               console.log('Account for member created successfully -> ')
@@ -168,8 +169,8 @@ function createNewParseUser(username, taskId){
           error: function(user, error) {
             console.log('Sorry! Culdn''t signup the user -> ' + error.message)
               //response.error("Sorry! Culdn't signup the user -> " + error.message);
-          } });
-}*/
+          } });*/
+}
 
 function isEmpty(obj) {
 
