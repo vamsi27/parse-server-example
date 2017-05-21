@@ -104,7 +104,7 @@ Parse.Cloud.define("createTask", function(request, response) {
         if(results.length > 0) {
 
           tsk.set("Members", results);
-          tsk.set("Admin", results[0].id);
+          tsk.set("Admin", results[0]);
 
         }
 
