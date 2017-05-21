@@ -84,32 +84,31 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
     query.get(taskId, {
       
       success: function(task) {
-        console.log('Task found - YAY!!!')
+        console.log('Task found')
         response.success('Task found - YAY!!!')
         // The object was retrieved successfully.
 
         for(i = 1; i < members.length; i++){
 
           var userQuery = new Parse.Query(Parse.User);
-          console.log('%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% ' + members[i])
           userQuery.equalTo("username", members[i]);  
           userQuery.find({
             success: function(u) {
               if (!isEmpty(u)){
-              // Do stuff
               task.add("Members", u);
               task.save();
               console.log('Member added successfully')
               response.success('Member added successfully')
             }
             else{
-              console.log('member not found');
+              console.log('Member not found - Need to create new user');
               response.error('Member not found error -> ' + error.message);
+              createNewParseUser(members[i], task)
           }
             },
             error: function(object, error) {
                 
-                console.log(error.message);
+                console.log('Member fetch error -> ' + error.message);
                 response.error('Member fetch error -> ' + error.message);
                 
             }
@@ -135,6 +134,27 @@ Parse.Cloud.define("verifyPhoneNumber", function(request, response) {
         response.error("Invalid verification code.");
     }
 });
+
+function createNewParseUser(username, task){
+
+          var user = new Parse.User();
+          user.set("username", username);
+          user.set("password", username);
+
+          user.signUp(null, {
+              success: function(user) {       
+              console.log('Account for member created successfully -> ')
+              task.add("Members", u);
+              task.save();
+              console.log('Member added to task')
+              response.success('Account for member created successfully, and member added to task')
+
+          },
+          error: function(user, error) {
+            console.log('Sorry! Culdn''t signup the user -> ' + error.message)
+              response.error("Sorry! Culdn't signup the user -> " + error.message);
+          } });
+}
 
 function isEmpty(obj) {
 
