@@ -80,12 +80,14 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
     
     var Task = Parse.Object.extend("Task");
     var query = new Parse.Query(Task);
+    
     query.get(taskId, {
+      
       success: function(task) {
         // The object was retrieved successfully.
 
         for(i = 1; i < members.length; i++){
-
+/*
           var userQuery = new Parse.Query(Parse.User);
           userQuery.equalTo("username", members[i]);  
           userQuery.find({
@@ -93,6 +95,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
               // Do stuff
               task.add("Members", u);
               task.save();
+              console.log('Member added successfully')
             },
             error: function(object, error) {
                 
@@ -100,7 +103,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
                 
             }
           });
-
+*/
         }
       },
       error: function(object, error) {
