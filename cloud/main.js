@@ -146,23 +146,23 @@ function createNewParseUser(username, taskId){
               console.log('Account for member created successfully -> ')
               
 
-              var Task = Parse.Object.extend("Task");
-    var query = new Parse.Query(Task);
-    
-    query.get(taskId, {
-      
-      success: function(task) {
-        console.log('Task found')
-        task.add("Members", u);
-              task.save();
-        console.log('Member added to task')
-              response.success('Account for member created successfully, and member added to task')
-},
-      error: function(object, error) {
-        console.log('internal Task fetch error ' + error.message);
-        response.error('internal Task fetch error ' + error.message);
-      }
-    });
+              var Task1 = Parse.Object.extend("Task");
+              var query1 = new Parse.Query(Task1);
+              
+              query1.get(taskId, {
+                
+                success: function(task1) {
+                  console.log('Task found')
+                  task1.add("Members", u);
+                  task1.save();
+                  console.log('Member added to task')
+                        //response.success('Account for member created successfully, and member added to task')
+                },
+                error: function(object, error1) {
+                  console.log('internal Task fetch error ' + error1.message);
+                  //response.error('internal Task fetch error ' + error.message);
+                }
+              });
 
 
 
@@ -175,7 +175,7 @@ function createNewParseUser(username, taskId){
           },
           error: function(user, error) {
             console.log('Sorry! Culdn''t signup the user -> ' + error.message)
-              response.error("Sorry! Culdn't signup the user -> " + error.message);
+              //response.error("Sorry! Culdn't signup the user -> " + error.message);
           } });
 }
 
