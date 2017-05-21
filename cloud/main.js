@@ -75,6 +75,8 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
     
     var taskId = request.params["tskId"]
     var members = request.params["tskMembers"] //members usernames actually
+
+    console.log('Task id is -> ' + taskId);
     
     var Task = Parse.Object.extend("Task");
     var query = new Parse.Query(Task);
