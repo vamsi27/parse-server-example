@@ -94,11 +94,17 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
           userQuery.equalTo("username", members[i]);  
           userQuery.find({
             success: function(u) {
+              if (u !== null && u !== undefined){
               // Do stuff
               task.add("Members", u);
               task.save();
               console.log('Member added successfully')
               response.success('Member added successfully')
+            }
+            else{
+              console.log('member not found');
+              response.error('Member not found error -> ' + error.message);
+          }
             },
             error: function(object, error) {
                 
