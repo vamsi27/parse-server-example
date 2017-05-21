@@ -160,7 +160,7 @@ console.log('Username ----->>>>> ' + username)
                 
                 success: function(task1) {
                   console.log('Task found')
-                  task1.add("Members", u);
+                  task1.add("Members", user);
                   task1.save();
                   console.log('Member added to task')
                         //response.success('Account for member created successfully, and member added to task')
