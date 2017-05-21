@@ -103,6 +103,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
             else{
               console.log('Member not found - Need to create new user');
               console.log('>>>>>>>> ' + members[i])
+              console.log('>>>>>>>>TaskID ' + members[i])
               createNewParseUser(members[i], taskId);
               response.error('Member not found but account may have been created -> ' + error.message);
               
