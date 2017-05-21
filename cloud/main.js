@@ -71,6 +71,60 @@ Parse.Cloud.define("createNewUser", function(request, response) {
 });
 
 
+Parse.Cloud.define("createTask", function(request, response) {
+    
+    var name = request.params["tskName"]
+    var description = request.params["tskDescription"]
+    var dp = request.params["tskIDisplayImage"]
+    var admin = request.params["tskAdmin"]
+    var members = request.params["tskMembers"] //members usernames actually
+    
+
+
+    var Task = Parse.Object.extend("Task");
+    var tsk = new Task();
+
+    tsk.set("Name", name);
+    tsk.set("Description", description);
+    tsk.set("DisplayImage", dp);
+    tsk.set("Admin", admin);
+
+    // fetch users
+    var query = new Parse.Query(Parse.User);
+    query.containedIn("username", members);
+    query.find({
+      success: function(results) {
+        //alert("Successfully retrieved " + results.length + " scores.");
+        // Do something with the returned Parse.Object values
+        /*for (var i = 0; i < results.length; i++) {
+          var object = results[i];
+          alert(object.id + ' - ' + object.get('playerName'));
+        }*/
+
+        if(results.length > 0) {
+
+          tsk.set("Members", results);
+
+        }
+
+        tsk.save(null, {
+          success: function(tsk) {
+            // Execute any logic that should take place after the object is saved.
+            response.success('New object created with objectId: ' + tsk.id);
+          },
+          error: function(tsk, error) {
+            // Execute any logic that should take place if the save fails.
+            // error is a Parse.Error with an error code and message.
+            response.error('Failed to create new task, with error code: ' + error.message);
+          }
+        });
+      },
+      error: function(error) {
+        response.error('Failed to fetch users, with error code: ' + error.message);
+      }
+  });
+});
+
 Parse.Cloud.define("verifyPhoneNumber", function(request, response) {
     var user = request.user;
     var verificationCode = user.get("phoneVerificationCode");
