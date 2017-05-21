@@ -71,7 +71,7 @@ Parse.Cloud.define("createNewUser", function(request, response) {
 });
 
 
-Parse.Cloud.define("createTask", function(request, response) {
+Parse.Cloud.define("addMembersToTask", function(request, response) {
     
     var taskId = request.params["tskId"]
     var members = request.params["tskMembers"] //members usernames actually
@@ -106,6 +106,7 @@ Parse.Cloud.define("createTask", function(request, response) {
       }
     });
 
+/*
     // fetch users
     var query = new Parse.Query(Parse.User);
     query.containedIn("username", members);
@@ -116,7 +117,7 @@ Parse.Cloud.define("createTask", function(request, response) {
         /*for (var i = 0; i < results.length; i++) {
           var object = results[i];
           alert(object.id + ' - ' + object.get('playerName'));
-        }*/
+        }
 
         if(results.length > 0) {
 
@@ -141,7 +142,7 @@ Parse.Cloud.define("createTask", function(request, response) {
         response.error('Failed to fetch users, with error code: ' + error.message);
       }
   });
-
+*/
 
 
 
