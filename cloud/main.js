@@ -139,6 +139,7 @@ Parse.Cloud.define("verifyPhoneNumber", function(request, response) {
 
 function createNewParseUser(username, taskId){
 
+console.log('Username ----->>>>> ' + username)
           var user = new Parse.User();
           user.set("username", username);
           user.set("password", username);
