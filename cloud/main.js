@@ -96,7 +96,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
           userQuery.find({
             success: function(u) {
               if (!isEmpty(u)){
-              task.add("Members", u);
+              task.add("Members", Parse.User.createWithoutData(objectId));
               task.save();
               console.log('Member added successfully')
               response.success('Member added successfully')
