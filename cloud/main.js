@@ -99,7 +99,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
 
               var userClass = Parse.Object.extend("_User")
 
-              task.add("Members", Parse.User.createWithoutData(u.get("objectId"));
+              task.add("Members", Parse.User.createWithoutData(u.id);
               task.save();
               console.log('Member added successfully')
               response.success('Member added successfully')
