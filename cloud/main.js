@@ -95,10 +95,9 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
           userQuery.equalTo("username", members[i]); 
 
           console.log('^^^^^^^^^^^^^^^^^^ ' + members[i])
-          Parse.Cloud.useMasterKey();
 
 
-          userQuery.find({
+          userQuery.first({
             success: function(u) {
               if (!isEmpty(u)){
 
