@@ -7,9 +7,10 @@ Parse.Cloud.define('hello', function(req, res) {
 
 
 Parse.Cloud.define("sendVerificationCode", function(request, response) {
+    
+    // makes sure the code is always 5 digits
     var verificationCode = 10000 + Math.floor(Math.random()*89999);
-    
-    
+
     twilio.sendSms({
         From: "7864204937",
         To: request.params["phoneNumber"],
@@ -23,6 +24,7 @@ Parse.Cloud.define("sendVerificationCode", function(request, response) {
     });
 });
 
+/*
 Parse.Cloud.define("createNewUser", function(request, response) {
 
     var success = 0
@@ -69,7 +71,7 @@ Parse.Cloud.define("createNewUser", function(request, response) {
     //response.success('Pass = ' + success.toString() + ' Fail = ' + fails.toString())
 
 });
-
+*/
 
 Parse.Cloud.define("addMembersToTask", function(request, response) {
     
