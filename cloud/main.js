@@ -79,6 +79,7 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
 
   var Task = Parse.Object.extend("Task");
   var query = new Parse.Query(Task);
+  
   query.get(taskId, {
       success: function(task) {
 
@@ -100,7 +101,8 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
       },
       error: function(object, error) {
         response.error('Error')
-      });
+      }
+    });
 });
 
 Parse.Cloud.define("addMembersToTask", function(request, response) {
