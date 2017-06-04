@@ -89,7 +89,7 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
           //destroy the task
           task.destroy({
           success: function(t) {
-            console.log('Task ' + t.id + ' delted successfully')
+            console.log('Task ' + t.id + ' deleted successfully')
           },
           error: function(myObject, error) {
             console.log('Failed to delete Task ' + t.id)
@@ -98,6 +98,8 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
         }
         else{
           var newAdminId = members[1].id
+          console.log(members[1].get("username"))
+
           var userQuery = new Parse.Query(Parse.User);
           
           userQuery.get(userId, {
@@ -107,7 +109,7 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
               task.remove("Members", u);
               
               //set nextusername/member to nil if it's pointing to current user
-              if(task["NextTurnUserName"] == u["username"]){
+              if(task.get("NextTurnUserName") == u.get("username")){
                 console.log('Removing current user from next turn')
                 task.unset("NextTurnUserName");
                 task.unset("NextTurnMember");
