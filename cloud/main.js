@@ -85,22 +85,56 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
 
         var members = task.get("Members");
 
-        console.log('Total members')
-        console.log(members.length)
-        console.log('.id')
-        console.log(members[1].id) //only this is working
-        console.log('qoutes .id')
-        console.log(members[1].get("objectId")) // need to check this
-        console.log('useranme')
-        console.log(members[1].get("Username"))
+        if(members.length == 1){
+          //destroy the task
+          task.destroy({
+          success: function(t) {
+            console.log('Task ' + t.id + ' delted successfully')
+          },
+          error: function(myObject, error) {
+            console.log('Failed to delete Task ' + t.id)
+          }
+          });
+        }
+        else{
+          var newAdminId = members[1].id
+          var userQuery = new Parse.Query(Parse.User);
+          
+          userQuery.get(userId, {
+            success: function(u) {
+              
+              //fetch current user, and remove from members
+              task.remove("Members", u);
+              
+              //set nextusername/member to nil if it's pointing to current user
+              if(task["NextTurnUserName"] == u["username"]){
+                console.log('Removing current user from next turn')
+                task.unset("NextTurnUserName");
+                task.unset("NextTurnMember");
+              }
 
-        response.success('task found')
+              //take next member and make him admin
+              task.set("Admin", Parse.User.createWithoutData(newAdminId));
 
+              task.save();
+              console.log('Member ' + u["username"] + ' removed successfully from task ' + task.id + ' and user ' + newAdminId + ' is the new admin')
 
+            },
+            error: function(object, error) {
+                
+                console.log('Member fetch error -> ' + error.message);
+                response.error('Member fetch error -> ' + error.message);
+                
+            }
+          });
+
+        }
+
+        response.success('task found and user removed')
 
       },
       error: function(object, error) {
-        response.error('Error')
+        response.error('User could not be removed from the task')
       }
     });
 });
