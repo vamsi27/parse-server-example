@@ -88,9 +88,9 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
         console.log('Total members')
         console.log(members.length)
         console.log('.id')
-        console.log(members[1].id)
+        console.log(members[1].id) //only this is working
         console.log('qoutes .id')
-        console.log(members[1].get("id"))
+        console.log(members[1].get("objectId")) // need to check this
         console.log('useranme')
         console.log(members[1].get("Username"))
 
