@@ -98,7 +98,7 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
         }
         else{
           var newAdminId = members[1].id
-          console.log(members[1].get("username"))
+          console.log('testttt ' + members[1].get("username"))
 
           var userQuery = new Parse.Query(Parse.User);
           
@@ -119,7 +119,7 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
               task.set("Admin", Parse.User.createWithoutData(newAdminId));
 
               task.save();
-              console.log('Member ' + u["username"] + ' removed successfully from task ' + task.id + ' and user ' + newAdminId + ' is the new admin')
+              console.log('Member ' + u.get("username") + ' removed successfully from task ' + task.id + ' and user ' + newAdminId + ' is the new admin')
 
             },
             error: function(object, error) {
