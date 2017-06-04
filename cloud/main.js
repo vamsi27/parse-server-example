@@ -98,7 +98,6 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
         }
         else{
           var newAdminId = members[1].id
-          console.log('testttt ' + members[1].get("username"))
 
           var userQuery = new Parse.Query(Parse.User);
           
@@ -171,8 +170,12 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
             success: function(u) {
               if (!isEmpty(u)){
 
-              console.log('############# ' + u.id)
+              // you can add to array by directly passing in object    
+              u.add("Tasks", task);
+              u.save();
+              console.log('Added Task to User')
 
+              // or u can add by creating empty object with id - both ways only pointer gets saved in array
               task.add("Members", Parse.User.createWithoutData(u.id));
               task.save();
               console.log('Member added successfully')
@@ -226,6 +229,12 @@ console.log('Username ----->>>>> ' + username)
           user.signUp(null, {
               success: function(user) {       
               console.log('Account for member created successfully -> ')
+
+              user.add("Tasks", task);
+              user.save();
+              console.log('Added Task to User')
+
+
               task.add("Members", user);
               task.save();
               console.log('Member added to task')
