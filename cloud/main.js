@@ -72,6 +72,36 @@ Parse.Cloud.define("createNewUser", function(request, response) {
 
 });
 */
+Parse.Cloud.define("deleteUserFromTask", function(request, response) {
+
+  var taskId = request.params["taskId"]
+  var userId = request.params["userId"]
+
+  var Task = Parse.Object.extend("Task");
+  var query = new Parse.Query(Task);
+  query.get(taskId, {
+      success: function(task) {
+
+        var members = task.get("Members");
+
+        console.log('Total members')
+        console.log(members.length)
+        console.log('.id')
+        console.log(members[1].id)
+        console.log('qoutes .id')
+        console.log(members[1].get("id"))
+        console.log('useranme')
+        console.log(members[1].get("Username"))
+
+        response.success('task found')
+
+
+
+      },
+      error: function(object, error) {
+        response.error('Error')
+      });
+});
 
 Parse.Cloud.define("addMembersToTask", function(request, response) {
     
