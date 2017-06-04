@@ -172,7 +172,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
 
               // you can add to array by directly passing in object    
               u.add("Tasks", task);
-              u.save();
+              u.save(null, {useMasterKey:true});
               console.log('Added Task to User')
 
               // or u can add by creating empty object with id - both ways only pointer gets saved in array
@@ -231,7 +231,7 @@ console.log('Username ----->>>>> ' + username)
               console.log('Account for member created successfully -> ')
 
               user.add("Tasks", task);
-              user.save();
+              u.save(null, {useMasterKey:true});
               console.log('Added Task to User')
 
 
