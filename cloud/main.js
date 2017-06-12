@@ -46,11 +46,9 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
                     }
                 });
             } else {
-                var newAdminId = members[1].id
-
-                var userQuery = new Parse.Query(Parse.User);
-
-                userQuery.get(userId, {
+                
+                    var userQuery = new Parse.Query(Parse.User);
+                    userQuery.get(userId, {
                     success: function(u) {
 
                         //fetch current user, and remove from members
@@ -64,6 +62,8 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
                         }
 
                         //take next member and make him admin
+                        var remainingMembers = task.get("Members")
+                        var newAdminId = remainingMembers[0].id
                         task.set("Admin", Parse.User.createWithoutData(newAdminId));
 
                         task.save();
