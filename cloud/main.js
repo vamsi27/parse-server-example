@@ -91,7 +91,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
     var taskId = request.params["tskId"]
     var members = request.params["tskMembers"] //members usernames actually
 
-    console.log('Task id is -> ' + taskId);
+    console.log('addMembersToTask Start - Task id is -> ' + taskId);
 
     var Task = Parse.Object.extend("Task");
     var query = new Parse.Query(Task);
@@ -99,7 +99,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
     query.get(taskId, {
 
         success: function(task) {
-            console.log('Task found')
+            console.log('Task found - Task id is -> ' + task.id)
             response.success('Task found - YAY!!!')
             // The object was retrieved successfully.
 
@@ -109,7 +109,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
                 var userQuery = new Parse.Query(Parse.User);
                 userQuery.equalTo("username", members[i]);
 
-                console.log('^^^^^^^^^^^^^^^^^^ ' + members[i])
+                console.log('Start processing member ' + i + ' -> ' + members[i])
 
                 userQuery.first({
                     success: function(u) {
@@ -119,15 +119,15 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
                             u.save(null, {
                                 useMasterKey: true
                             });
-                            console.log('Added Task to User')
+                            console.log('Added Task to Users taks list -> ' + u.get("username"))
 
                             // or u can add by creating empty object with id - both ways only pointer gets saved in array
                             task.add("Members", Parse.User.createWithoutData(u.id));
                             task.save();
-                            console.log('Member added successfully')
-                            response.success('Member added successfully')
+                            console.log('Member added successfully to task')
+                            response.success('Member added successfully to task')
                         } else {
-                            console.log('Member not found - Need to create new user');
+                            console.log('Member ' + memUName + ' not found - Need to create account');
                             createNewParseUser(memUName, task);
                             response.error('Member not found but account may have been created -> ' + error.message);
                         }
@@ -148,7 +148,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
 });
 
 function createNewParseUser(username, task) {
-    console.log('Username ----->>>>> ' + username)
+    console.log('CReating new account for User --> ' + username)
     var user = new Parse.User();
     user.set("username", username);
     user.set("password", username);
@@ -156,17 +156,17 @@ function createNewParseUser(username, task) {
 
     user.signUp(null, {
         success: function(user) {
-            console.log('Account for member created successfully -> ')
+            console.log('signup for member successfull -> ' + user.get("username"))
 
             user.add("Tasks", task);
             u.save(null, {
                 useMasterKey: true
             });
-            console.log('Added Task to User')
+            console.log('Added Task to User -> ' + user.get("username"))
 
             task.add("Members", user);
             task.save();
-            console.log('Member added to task')
+            console.log('Member ' + user.get("username") + ' added to task')
         },
         error: function(user, error) {
             console.log("Sorry! Couldn't signup the user -> " + error.message)
