@@ -111,7 +111,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
 
                 console.log('Start processing member ' + i + ' -> ' + members[i])
 
-                console.log(userQuery)
+                console.log(userQuery.get("_where").get("username"))
 
                 userQuery.first({
                     success: function(u) {
