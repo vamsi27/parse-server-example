@@ -113,7 +113,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
 
                 userQuery.first({
                     memberName: arguments[1],
-                    testParam: "ZZZZZZZ"
+                    testParam: "ZZZZZZZ",
                     success: function(u) {
                         if (!isEmpty(u)) {
                             // you can add to array by directly passing in object    
