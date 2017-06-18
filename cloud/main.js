@@ -111,11 +111,9 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
 
                 console.log('Start processing member ' + i + ' -> ' + members[i])
 
+                console.log(userQuery)
+
                 userQuery.first({
-
-                    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ ' + userQuery)
-                    console.log('@@@@@@@@@@@')
-
                     success: function(u) {
                         if (!isEmpty(u)) {
                             // you can add to array by directly passing in object    
