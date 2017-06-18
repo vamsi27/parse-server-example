@@ -112,7 +112,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
                 console.log('Start processing member ' + i + ' -> ' + members[i])
 
                 userQuery.first({
-                    memberName: memUName,
+                    memberName: arguments[1],
                     success: function(u) {
                         if (!isEmpty(u)) {
                             // you can add to array by directly passing in object    
@@ -137,7 +137,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
                         console.log('Member fetch error -> ' + error.message);
                         response.error('Member fetch error -> ' + error.message);
                     }
-                }.bind(memUName));
+                }).bind(memUName);
 
             }
         },
