@@ -162,18 +162,18 @@ function createNewParseUser(username, task) {
     user.add("Tasks", task)
 
     user.signUp(null, {
-        success: function(user) {
-            console.log('signup for member successfull -> ' + user.get("username"))
+        success: function(u) {
+            console.log('signup for member successfull -> ' + u.get("username"))
 
-            user.add("Tasks", task);
+            u.add("Tasks", task);
             u.save(null, {
                 useMasterKey: true
             });
-            console.log('Added Task to User -> ' + user.get("username"))
+            console.log('Added Task to User -> ' + u.get("username"))
 
-            task.add("Members", Parse.User.createWithoutData(user.id));
+            task.add("Members", u);
             task.save();
-            console.log('Member ' + user.get("username") + ' added to task')
+            console.log('Member ' + u.get("username") + ' added to task')
         },
         error: function(user, error) {
             console.log("Sorry! Couldn't signup the user -> " + error.message)
