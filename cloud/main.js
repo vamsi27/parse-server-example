@@ -123,7 +123,7 @@ function fetchUserAndAddtoTask(username, task) {
     userQuery.equalTo("username", username);
 
     console.log('inside fetchUserAndAddtoTask')
-    console.log('Start processing member ' + i + ' -> ' + members[i])
+    console.log('Start processing member ' + username)
 
     userQuery.first({
         success: function(u) {
