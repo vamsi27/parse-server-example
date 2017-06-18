@@ -135,7 +135,6 @@ function fetchUserAndAddtoTask(username, task) {
                 });
                 console.log('Added Task to Users taks list -> ' + u.get("username"))
 
-                // or u can add by creating empty object with id - both ways only pointer gets saved in array
                 task.add("Members", Parse.User.createWithoutData(u.id));
                 task.save();
                 console.log('Member added successfully to task -> ' + task.id)
@@ -163,15 +162,9 @@ function createNewParseUser(username, task) {
 
     user.signUp(null, {
         success: function(u) {
-            console.log('signup for member successfull -> ' + u.get("username"))
+            console.log('signup for member successfull -> ' + u.get("username") + ' with task id -> ' + task.id)
 
-            u.add("Tasks", task);
-            u.save(null, {
-                useMasterKey: true
-            });
-            console.log('Added Task to User -> ' + u.get("username"))
-
-            task.add("Members", u);
+            task.add("Members", Parse.User.createWithoutData(u.id));
             task.save();
             console.log('Member ' + u.get("username") + ' added to task')
         },
