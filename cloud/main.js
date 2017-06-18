@@ -113,7 +113,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
 
                 userQuery.first({
 
-                    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ ' + userQuery.get("username"))
+                    console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ ' + userQuery)
                     console.log('@@@@@@@@@@@')
 
                     success: function(u) {
