@@ -127,11 +127,11 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
                             console.log('Member added successfully to task')
                             response.success('Member added successfully to task')
                         } else {
-                            console.log('Member ' + arguments[1] + ' not found - Need to create account');
-                            createNewParseUser(arguments[1], task);
+                            console.log('Member ' + arguments[2] + ' not found - Need to create account');
+                            createNewParseUser(arguments[2], task);
                             response.error('Member not found but account may have been created -> ' + error.message);
                         }
-                    },
+                    }.bind(arguments[1]),
                     error: function(object, error) {
                         console.log('Member fetch error -> ' + error.message);
                         response.error('Member fetch error -> ' + error.message);
