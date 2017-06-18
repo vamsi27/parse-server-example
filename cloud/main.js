@@ -171,7 +171,7 @@ function createNewParseUser(username, task) {
             });
             console.log('Added Task to User -> ' + user.get("username"))
 
-            task.add("Members", user);
+            task.add("Members", Parse.User.createWithoutData(user.id));
             task.save();
             console.log('Member ' + user.get("username") + ' added to task')
         },
