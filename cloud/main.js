@@ -137,7 +137,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
                         console.log('Member fetch error -> ' + error.message);
                         response.error('Member fetch error -> ' + error.message);
                     }
-                });
+                }.bind(memUName));
 
             }
         },
