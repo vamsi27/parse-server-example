@@ -89,9 +89,11 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
 Parse.Cloud.define("addMembersToTask", function(request, response) {
 
     var taskId = request.params["tskId"]
-    var members = request.params["tskMembers"] //members usernames actually
+    var members = request.params["tskMembers"] //members phonenumbers (parse usernames) actually
+    var isNewTask = request.params["isNewTask"]
 
     console.log('addMembersToTask Start - Task id is -> ' + taskId);
+    console.log('Is new task? -> ' + isNewTask);
 
     var Task = Parse.Object.extend("Task");
     var query = new Parse.Query(Task);
@@ -103,11 +105,11 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
             response.success('Task found - YAY!!!')
             // The object was retrieved successfully.
 
-            for (i = 1; i < members.length; i++) {
+            var stIndex = isNewTask == 1 ? 1 : 0
+
+            for (i = stIndex; i < members.length; i++) {
                 var memUsername = members[i];
-
                 fetchUserAndAddtoTask(memUsername, task)
-
             }
         },
         error: function(object, error) {
