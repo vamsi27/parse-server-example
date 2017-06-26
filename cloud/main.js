@@ -110,7 +110,6 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
                 var memUsername = members[i];
                 fetchUserAndAddtoTask(memUsername, task, (members.length -1) == stIndex, response)
             }
-            // response.success('Task found and hopefully all members have been added to the task, and task to the members.')
         },
         error: function(object, error) {
             console.log('Task fetch error ' + error.message);
@@ -147,8 +146,7 @@ function fetchUserAndAddtoTask(username, task, raiseResponse, response) {
             } else {
                 console.log('###########')
                 console.log('Member ' + username + ' not found - Need to create account');
-                createNewParseUser(username, task);
-                response.error('Member not found but account may have been created -> ' + error.message);
+                createNewParseUser(username, task, raiseResponse, response);
             }
         },
         error: function(object, error) {
@@ -159,7 +157,7 @@ function fetchUserAndAddtoTask(username, task, raiseResponse, response) {
 
 }
 
-function createNewParseUser(username, task) {
+function createNewParseUser(username, task, raiseResponse, response) {
     console.log('Creating new account for User --> ' + username)
     var user = new Parse.User();
     user.set("username", username);
@@ -173,10 +171,14 @@ function createNewParseUser(username, task) {
             task.add("Members", Parse.User.createWithoutData(u.id));
             task.save();
             console.log('Member ' + u.get("username") + ' added to task')
+            if(raiseResponse) {
+                console.log('Raising success response after signing up user')
+                response.success('Task found and hopefully all members have been added to the task, and task to the members.')
+            }
         },
         error: function(user, error) {
             console.log("Sorry! Couldn't signup the user -> " + error.message)
-            //response.error("Sorry! Culdn't signup the user -> " + error.message);
+            response.error("Sorry! Culdn't signup the user -> " + error.message);
         }
     });
 }
