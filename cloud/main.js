@@ -108,9 +108,9 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
 
             for (i = stIndex; i < members.length; i++) {
                 var memUsername = members[i];
-                fetchUserAndAddtoTask(memUsername, task)
+                fetchUserAndAddtoTask(memUsername, task, (members.length -1) == stIndex)
             }
-            response.success('Task found and hopefully all members have been added to the task, and task to the members.')
+            // response.success('Task found and hopefully all members have been added to the task, and task to the members.')
         },
         error: function(object, error) {
             console.log('Task fetch error ' + error.message);
@@ -119,7 +119,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
     });
 });
 
-function fetchUserAndAddtoTask(username, task) {
+function fetchUserAndAddtoTask(username, task, raiseResponse) {
 
     var userQuery = new Parse.Query(Parse.User);
     userQuery.equalTo("username", username);
@@ -140,6 +140,9 @@ function fetchUserAndAddtoTask(username, task) {
                 task.add("Members", Parse.User.createWithoutData(u.id));
                 task.save();
                 console.log('Member added successfully to task -> ' + task.id)
+                if(raiseResponse) {
+                    response.success('Task found and hopefully all members have been added to the task, and task to the members.')
+                }
             } else {
                 console.log('###########')
                 console.log('Member ' + username + ' not found - Need to create account');
