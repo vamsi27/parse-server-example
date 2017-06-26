@@ -108,7 +108,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
 
             for (i = stIndex; i < members.length; i++) {
                 var memUsername = members[i];
-                fetchUserAndAddtoTask(memUsername, task, (members.length -1) == stIndex)
+                fetchUserAndAddtoTask(memUsername, task, (members.length -1) == stIndex, response)
             }
             // response.success('Task found and hopefully all members have been added to the task, and task to the members.')
         },
@@ -119,7 +119,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
     });
 });
 
-function fetchUserAndAddtoTask(username, task, raiseResponse) {
+function fetchUserAndAddtoTask(username, task, raiseResponse, response) {
 
     var userQuery = new Parse.Query(Parse.User);
     userQuery.equalTo("username", username);
@@ -141,6 +141,7 @@ function fetchUserAndAddtoTask(username, task, raiseResponse) {
                 task.save();
                 console.log('Member added successfully to task -> ' + task.id)
                 if(raiseResponse) {
+                    console.log('Raising response')
                     response.success('Task found and hopefully all members have been added to the task, and task to the members.')
                 }
             } else {
