@@ -102,7 +102,6 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
 
         success: function(task) {
             console.log('Task found - Task id is -> ' + task.id)
-            response.success('Task found - YAY!!!')
             // The object was retrieved successfully.
 
             var stIndex = isNewTask == 1 ? 1 : 0
@@ -111,6 +110,7 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
                 var memUsername = members[i];
                 fetchUserAndAddtoTask(memUsername, task)
             }
+            response.success('Task found and hopefully all members have been added to the task, and task to the members.')
         },
         error: function(object, error) {
             console.log('Task fetch error ' + error.message);
