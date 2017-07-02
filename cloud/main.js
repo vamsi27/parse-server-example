@@ -49,8 +49,10 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
                     }
                 });
             } else {
-                
+                    
+                    console.log('$$$$$$$$$$$$$$$$$$ ' + task.get("Members").length)
                     task.remove("Members", Parse.User.createWithoutData(userId));
+                    console.log('$$$$$$$$$$$$$$$$$$ ' + task.get("Members").length)
                     var taskNextTurnMember = task.get("NextTurnMember")
 
                     //set nextusername/member to nil if it's pointing to current user
