@@ -31,6 +31,7 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
     var query = new Parse.Query(Task);
     query.equalTo("objectId", taskId);
     query.include("NextTurnMember");
+    query.include("Admin");
 
     query.first({
         success: function(task) {
@@ -62,10 +63,14 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
                         task.unset("NextTurnMember");
                     }
 
-                    //take next member and make him admin
-                    var remainingMembers = task.get("Members")
-                    var newAdminId = remainingMembers[0].id
-                    task.set("Admin", Parse.User.createWithoutData(newAdminId));
+                    if (task.get("Admin").id == userId) {
+                        var remainingMembers = task.get("Members")
+                        var newAdminId = remainingMembers[0].id
+                        task.set("Admin", Parse.User.createWithoutData(newAdminId));
+                        console.log("setting new admin")
+                    }else{
+                        console.log("user not an admin, so no need to set a new admin")
+                    }
 
                     console.log('Member ' + u.get("username") + ' removed successfully from task ' + task.get("Name") + ' ' + task.id + ' and user ' + newAdminId + ' is the new admin')
                     task.save();
