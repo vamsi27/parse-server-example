@@ -29,8 +29,10 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
 
     var Task = Parse.Object.extend("Task");
     var query = new Parse.Query(Task);
+    query.equalTo("objectId", taskId);
+    query.include("NextTurnMember");
 
-    query.get(taskId, {
+    query.first({
         success: function(task) {
 
             var members = task.get("Members");
@@ -40,6 +42,7 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
                 task.destroy({
                     success: function(t) {
                         console.log('Task ' + t.id + ' deleted successfully')
+                        response.success('One and only user removed from task, and task has been deleted')
                     },
                     error: function(myObject, error) {
                         console.log('Failed to delete Task ' + t.id)
@@ -47,38 +50,25 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
                 });
             } else {
                 
-                    var userQuery = new Parse.Query(Parse.User);
-                    userQuery.get(userId, {
-                    success: function(u) {
+                    task.remove("Members", Parse.User.createWithoutData(userId);
+                    var taskNextTurnMember = task.get("NextTurnMember")
 
-                        //fetch current user, and remove from members
-                        task.remove("Members", u);
-
-                        //set nextusername/member to nil if it's pointing to current user
-                        if (task.get("NextTurnUserName") == u.get("username")) {
-                            console.log('Removing current user from next turn')
-                            task.unset("NextTurnUserName");
-                            task.unset("NextTurnMember");
-                        }
-
-                        //take next member and make him admin
-                        var remainingMembers = task.get("Members")
-                        var newAdminId = remainingMembers[0].id
-                        task.set("Admin", Parse.User.createWithoutData(newAdminId));
-
-                        task.save();
-                        console.log('Member ' + u.get("username") + ' removed successfully from task ' + task.id + ' and user ' + newAdminId + ' is the new admin')
-
-                    },
-                    error: function(object, error) {
-                        console.log('Member fetch error -> ' + error.message);
-                        response.error('Member fetch error -> ' + error.message);
+                    //set nextusername/member to nil if it's pointing to current user
+                    if (!isEmpty(taskNextTurnMember) && taskNextTurnMember.id == userId) {
+                        console.log('Removing current user from next turn')
+                        task.unset("NextTurnUserName");
+                        task.unset("NextTurnMember");
                     }
-                });
+
+                    //take next member and make him admin
+                    var remainingMembers = task.get("Members")
+                    var newAdminId = remainingMembers[0].id
+                    task.set("Admin", Parse.User.createWithoutData(newAdminId));
+
+                    task.save();
+                    console.log('Member ' + u.get("username") + ' removed successfully from task ' + task.id + ' and user ' + newAdminId + ' is the new admin')
+                    response.success('task found and user removed')
             }
-
-            response.success('task found and user removed')
-
         },
         error: function(object, error) {
             response.error('User could not be removed from the task')
