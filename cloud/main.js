@@ -72,8 +72,8 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
                         console.log("user not an admin, so no need to set a new admin")
                     }
 
-                    console.log('Member ' + u.get("username") + ' removed successfully from task ' + task.get("Name") + ' ' + task.id + ' and user ' + newAdminId + ' is the new admin')
                     task.save();
+                    console.log('Member ' + userId + ' removed successfully from task ' + task.get("Name") + ' -> ' + task.id)
                     response.success('task found and user removed')
             }
         },
