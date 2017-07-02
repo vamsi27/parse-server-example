@@ -65,8 +65,8 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
                     var newAdminId = remainingMembers[0].id
                     task.set("Admin", Parse.User.createWithoutData(newAdminId));
 
+                    console.log('Member ' + u.get("username") + ' removed successfully from task ' + task.get("Name") + ' ' + task.id + ' and user ' + newAdminId + ' is the new admin')
                     task.save();
-                    console.log('Member ' + u.get("username") + ' removed successfully from task ' + task.id + ' and user ' + newAdminId + ' is the new admin')
                     response.success('task found and user removed')
             }
         },
