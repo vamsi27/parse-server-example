@@ -32,6 +32,8 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
         return
     }
 
+    console.log('Starting deleteUserFromTask')
+
     var Task = Parse.Object.extend("Task");
     var query = new Parse.Query(Task);
     query.include("Admin");
