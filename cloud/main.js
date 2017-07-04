@@ -34,6 +34,7 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
     query.get(taskId, {
         success: function(task) {
             for (i = 0; i < userIds.length; i++) {
+                console.log('Remving user -> ' + userIds[i])
                 removeEachUserFromTask(userIds[i], task, i == userIds.length - 1, response)
             }
         },
