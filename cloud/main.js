@@ -27,6 +27,11 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
     var taskId = request.params["taskId"]
     var userIds = request.params["userId"]
 
+    if(userIds.length == 0){
+        response.success('No user found to remove')
+        return
+    }
+
     var Task = Parse.Object.extend("Task");
     var query = new Parse.Query(Task);
     query.include("Admin");
@@ -116,6 +121,11 @@ Parse.Cloud.define("addMembersToTask", function(request, response) {
     var taskId = request.params["tskId"]
     var members = request.params["tskMembers"] //members phonenumbers (parse usernames) actually
     var isNewTask = request.params["isNewTask"]
+
+    if(members.length == 0){
+        response.success('No member found to add')
+        return
+    }
 
     console.log('addMembersToTask Start - Task id is -> ' + taskId);
     console.log('Is new task? -> ' + isNewTask);
