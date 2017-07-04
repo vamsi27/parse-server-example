@@ -31,15 +31,15 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
     userQuery.get(userId, {
         success: function(u) {
 
+            var Task = Parse.Object.extend("Task");
             // remove the task from user's list
-            u.remove("Tasks", Parse.User.createWithoutData(taskId));
+            u.remove("Tasks", Task.createWithoutData(taskId));
             u.save(null, {
                 useMasterKey: true
             });
 
             console.log('Task removed from users list')
 
-            var Task = Parse.Object.extend("Task");
             var query = new Parse.Query(Task);
             query.include("Admin");
 
