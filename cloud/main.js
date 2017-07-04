@@ -25,7 +25,7 @@ Parse.Cloud.define("sendVerificationCode", function(request, response) {
 Parse.Cloud.define("deleteUserFromTask", function(request, response) {
 
     var taskId = request.params["taskId"]
-    var userIds = request.params["userId"]
+    var userIds = request.params["tskMembersRemoved"]
 
     if(userIds.length == 0){
         response.success('No user found to remove')
@@ -120,7 +120,7 @@ function removeEachUserFromTask(userId, task, raiseResponse, response) {
 
 Parse.Cloud.define("addMembersToTask", function(request, response) {
 
-    var taskId = request.params["tskId"]
+    var taskId = request.params["taskId"]
     var members = request.params["tskMembers"] //members phonenumbers (parse usernames) actually
     var isNewTask = request.params["isNewTask"]
 
