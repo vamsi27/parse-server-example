@@ -27,28 +27,29 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
     var taskId = request.params["taskId"]
     var userId = request.params["userId"]
 
-    var userQuery = new Parse.Query(Parse.User);
-    userQuery.get(userId, {
-        success: function(u) {
+    var Task = Parse.Object.extend("Task");
+    var query = new Parse.Query(Task);
+    query.include("Admin");
 
-            var Task = Parse.Object.extend("Task");
-            // remove the task from user's list
-            u.remove("Tasks", Task.createWithoutData(taskId));
-            u.save(null, {
-                useMasterKey: true
-            });
+    query.get(taskId, {
+        success: function(task) {
 
-            console.log('Task removed from users list')
+            var userQuery = new Parse.Query(Parse.User);
+            userQuery.get(userId, {
+                success: function(u) {
+                    
+                    // remove the task from user's list
+                    u.remove("Tasks", task);
+                    u.save(null, {
+                        useMasterKey: true
+                    });
 
-            var query = new Parse.Query(Task);
-            query.include("Admin");
+                    console.log('Task removed from users list')
 
-            query.get(taskId, {
-                success: function(task) {
 
                     var members = task.get("Members");
 
-                    if (members.length == 1) {
+                    if (members.length == 1 && members[0].id == u.id) {
                         //destroy the task
                         task.destroy({
                             success: function(t) {
@@ -85,16 +86,16 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
                         console.log('Member ' + u.get("username") + ' removed successfully from task ' + task.get("Name") + ' -> ' + task.id)
                         response.success('task found and user removed its members list')
                     }
+                    console.log('Task removed from users list')
                 },
                 error: function(object, error) {
-                    response.error('User could not be removed from the task')
+                    console.log('Member fetch error -> ' + error.message);
+                    response.error('Member fetch error -> ' + error.message);
                 }
             });
-
         },
         error: function(object, error) {
-            console.log('Member fetch error -> ' + error.message);
-            response.error('Member fetch error -> ' + error.message);
+            response.error('User could not be removed from the task')
         }
     });
 });
