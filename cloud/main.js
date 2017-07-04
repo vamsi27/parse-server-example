@@ -25,7 +25,7 @@ Parse.Cloud.define("sendVerificationCode", function(request, response) {
 Parse.Cloud.define("deleteUserFromTask", function(request, response) {
 
     var taskId = request.params["taskId"]
-    var userId = request.params["userId"]
+    var userIds = request.params["userId"]
 
     var Task = Parse.Object.extend("Task");
     var query = new Parse.Query(Task);
@@ -33,72 +33,82 @@ Parse.Cloud.define("deleteUserFromTask", function(request, response) {
 
     query.get(taskId, {
         success: function(task) {
-
-            var userQuery = new Parse.Query(Parse.User);
-            userQuery.get(userId, {
-                success: function(u) {
-                    
-                    // remove the task from user's list
-                    u.remove("Tasks", task);
-                    u.save(null, {
-                        useMasterKey: true
-                    });
-
-                    console.log('Task removed from users list')
-
-
-                    var members = task.get("Members");
-
-                    if (members.length == 1 && members[0].id == u.id) {
-                        //destroy the task
-                        task.destroy({
-                            success: function(t) {
-                                console.log('Task ' + t.id + ' deleted successfully')
-                                response.success('task found and user removed')
-                            },
-                            error: function(myObject, error) {
-                                console.log('Failed to delete Task ' + t.id)
-                                response.error('couldnt destroy the task')
-                            }
-                        });
-                    } else {
-
-                        task.remove("Members", u);
-
-                        //set nextusername/member to nil if it's pointing to current user
-                        if (task.get("NextTurnUserName") == u.get("username")) {
-                            console.log('Removing current user from next turn')
-                            task.unset("NextTurnUserName");
-                            task.unset("NextTurnMember");
-                        }
-
-                        //take next member and make him admin
-                        if (task.get("Admin").id == u.id) {
-                            var remainingMembers = task.get("Members")
-                            var newAdminId = remainingMembers[0].id
-                            task.set("Admin", Parse.User.createWithoutData(newAdminId));
-                            console.log("New admin has been set")
-                        } else {
-                            console.log("user not an admin, so no need to set a new admin")
-                        }
-
-                        task.save();
-                        console.log('Member ' + u.get("username") + ' removed successfully from task ' + task.get("Name") + ' -> ' + task.id)
-                        response.success('task found and user removed its members list')
-                    }
-                    console.log('Task removed from users list')
-                },
-                error: function(object, error) {
-                    console.log('Member fetch error -> ' + error.message);
-                    response.error('Member fetch error -> ' + error.message);
-                }
-            });
+            for (i = 0; i < userIds.length; i++) {
+                removeEachUserFromTask(userIds[i], task, i == userIds.length - 1, response)
+            }
         },
         error: function(object, error) {
             response.error('User could not be removed from the task')
         }
     });
 });
+
+function removeEachUserFromTask(userId, task, raiseResponse, response) {
+
+    var userQuery = new Parse.Query(Parse.User);
+    userQuery.equalTo("username", userId);
+    userQuery.first({
+        success: function(u) {
+
+            // remove the task from user's list
+            u.remove("Tasks", task);
+            u.save(null, {
+                useMasterKey: true
+            });
+
+            console.log('Task removed from users list')
+
+
+            var members = task.get("Members");
+
+            if (members.length == 1 && members[0].id == u.id) {
+                //destroy the task
+                task.destroy({
+                    success: function(t) {
+                        console.log('Task ' + t.id + ' deleted successfully')
+                        response.success('task found and user removed')
+                    },
+                    error: function(myObject, error) {
+                        console.log('Failed to delete Task ' + t.id)
+                        response.error('couldnt destroy the task')
+                    }
+                });
+            } else {
+
+                task.remove("Members", u);
+
+                //set nextusername/member to nil if it's pointing to current user
+                if (task.get("NextTurnUserName") == u.get("username")) {
+                    console.log('Removing current user from next turn')
+                    task.unset("NextTurnUserName");
+                    task.unset("NextTurnMember");
+                }
+
+                //take next member and make him admin
+                if (task.get("Admin").id == u.id) {
+                    var remainingMembers = task.get("Members")
+                    var newAdminId = remainingMembers[0].id
+                    task.set("Admin", Parse.User.createWithoutData(newAdminId));
+                    console.log("New admin has been set")
+                } else {
+                    console.log("user not an admin, so no need to set a new admin")
+                }
+
+                task.save();
+                console.log('Member ' + u.get("username") + ' removed successfully from task ' + task.get("Name") + ' -> ' + task.id)
+                if (raiseResponse) {
+                    response.success('task found and user removed its members list')
+                }
+            }
+        },
+        error: function(object, error) {
+            console.log('Member fetch error -> ' + error.message);
+            if (raiseResponse) {
+                response.error('Member fetch error -> ' + error.message);
+            }
+        }
+    });
+}
 
 Parse.Cloud.define("addMembersToTask", function(request, response) {
 
@@ -168,7 +178,6 @@ function fetchUserAndAddtoTask(username, task, raiseResponse, response) {
             response.error('Member fetch error -> ' + error.message);
         }
     });
-
 }
 
 function createNewParseUser(username, task, raiseResponse, response) {
