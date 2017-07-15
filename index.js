@@ -19,6 +19,18 @@ var api = new ParseServer({
   serverURL: 'https://your-turn.herokuapp.com/parse',  // Don't forget to change to https if needed
   liveQuery: {
     classNames: ["Posts", "Comments"] // List of classes to support for query subscriptions
+  },
+  push: {
+    //android: {
+      //senderId: '...',
+      //apiKey: '...'
+    //},
+    ios: {
+      pfx: 'YourTurnP12Certificate.p12',
+      passphrase: '', // optional password to your p12/PFX //TODO: setup a password
+      bundleId: 'com.vmzi.YourTurn',
+      production: false
+    }
   }
 });
 // Client-keys like the javascript key or the .NET key are not necessary with parse-server
