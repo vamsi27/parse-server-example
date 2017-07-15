@@ -27,7 +27,7 @@ var api = new ParseServer({
     //},
     ios: {
       pfx: 'YourTurnP12Certificate.p12',
-      passphrase: '', // optional password to your p12/PFX //TODO: setup a password
+      passphrase: 'Krishna1!', // optional password to your p12/PFX //TODO: setup a password
       bundleId: 'com.vmzi.YourTurn',
       production: false
     }//,adapter: ParsePushAdapter
