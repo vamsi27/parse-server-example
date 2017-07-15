@@ -31,7 +31,7 @@ Parse.Cloud.define("sendNotification", function(request, response) {
     Parse.Push.send({
         where: query, // Set our Installation query
         data: {
-            alert: "It's your turn next to",// " + taskName,
+            //alert: "It's your turn next to",// " + taskName,
             badge: "Increment",
             sound: "cheering.caf",
             title: "YT!"
