@@ -26,10 +26,12 @@ Parse.Cloud.define("sendNotification", function(request, response) {
     var query = new Parse.Query(Parse.Installation);
     query.equalTo('username', request.params["username"]);
 
+    var taskName = request.params["taskName"]
+
     Parse.Push.send({
         where: query, // Set our Installation query
         data: {
-            alert: "Willie Hayes injured by own pop fly."
+            alert: "It's your turn next to " + taskName
         }
     }, {
         useMasterKey: true,
