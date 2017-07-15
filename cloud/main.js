@@ -22,6 +22,26 @@ Parse.Cloud.define("sendVerificationCode", function(request, response) {
     });
 });
 
+Parse.Cloud.define("sendNotification", function(request, response) {
+    var query = new Parse.Query(Parse.Installation);
+    query.equalTo('username', request.params["username"]);
+
+    Parse.Push.send({
+        where: query, // Set our Installation query
+        data: {
+            alert: "Willie Hayes injured by own pop fly."
+        }
+    }, {
+        useMasterKey: true,
+        success: function() {
+            response.success('Sent N')
+        },
+        error: function(error) {
+            response.success('Couldnt send the notification')
+        }
+    });
+});
+
 Parse.Cloud.define("deleteUserFromTask", function(request, response) {
 
     var taskId = request.params["taskId"]
