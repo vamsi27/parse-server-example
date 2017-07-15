@@ -30,8 +30,7 @@ var api = new ParseServer({
       passphrase: '', // optional password to your p12/PFX //TODO: setup a password
       bundleId: 'com.vmzi.YourTurn',
       production: false
-    },
-    adapter: ParsePushAdapter
+    }//,adapter: ParsePushAdapter
   }
 });
 // Client-keys like the javascript key or the .NET key are not necessary with parse-server
