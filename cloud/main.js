@@ -32,8 +32,9 @@ Parse.Cloud.define("sendNotification", function(request, response) {
         where: query,
         data: {
             alert: "It's your turn to " + taskName,
+            //expiration_time: getNextWeek(),
             badge: "Increment", //ios only
-            sound: "cheering.caf" //ios only
+            sound: "bamboo.caf" //ios only
             //,title: "" //android only
         }
     }, {
@@ -46,6 +47,12 @@ Parse.Cloud.define("sendNotification", function(request, response) {
         }
     });
 });
+
+function getNextWeek(){
+    var today = new Date();
+    var nextweek = new Date(today.getFullYear(), today.getMonth(), today.getDate()+7);
+    return nextweek;
+}
 
 Parse.Cloud.define("deleteUserFromTask", function(request, response) {
 
