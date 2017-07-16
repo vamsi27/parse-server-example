@@ -26,6 +26,9 @@ Parse.Cloud.define("sendNotification", function(request, response) {
     var query = new Parse.Query(Parse.Installation);
     query.equalTo('username', request.params["username"]);
 
+    console.log('Sending notification to -> ' + request.params["username"])
+    console.log('Task name -> ' + request.params["taskName"])
+
     var taskName = request.params["taskName"]
 
     Parse.Push.send({
@@ -34,7 +37,7 @@ Parse.Cloud.define("sendNotification", function(request, response) {
             alert: "It's your turn to " + taskName,
             //expiration_time: getNextWeek(),
             badge: "Increment", //ios only
-            sound: "bamboo.caf" //ios only
+            sound: "bamboo.caf" //ios only //doesn't work, u need to have those sound files in your app
             //,title: "" //android only
         }
     }, {
