@@ -31,7 +31,7 @@ Parse.Cloud.define("sendNotification", function(request, response) {
     Parse.Push.send({
         where: query,
         data: {
-            alert: "Free hotdogs at the Parse concession stand!"
+            alert: "It's your turn to " + taskName
         }
     }, {
         useMasterKey: true,
