@@ -31,7 +31,10 @@ Parse.Cloud.define("sendNotification", function(request, response) {
     Parse.Push.send({
         where: query,
         data: {
-            alert: "It's your turn to " + taskName
+            alert: "It's your turn to " + taskName,
+            badge: "Increment", //ios only
+            sound: "cheering.caf" //ios only
+            //,title: "" //android only
         }
     }, {
         useMasterKey: true,
