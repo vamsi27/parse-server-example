@@ -29,12 +29,9 @@ Parse.Cloud.define("sendNotification", function(request, response) {
     var taskName = request.params["taskName"]
 
     Parse.Push.send({
-        where: query, // Set our Installation query
+        where: query,
         data: {
-            //alert: "It's your turn next to",// " + taskName,
-            badge: "Increment",
-            sound: "cheering.caf",
-            title: "YT!"
+            alert: "Free hotdogs at the Parse concession stand!"
         }
     }, {
         useMasterKey: true,
