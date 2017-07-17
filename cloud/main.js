@@ -31,13 +31,17 @@ Parse.Cloud.define("sendNotification", function(request, response) {
     var taskName = request.params["taskName"]
     var isReminder = request.params["isReminder"]
 
-    var alertMsg = (isReminder ? 'REMINDER: ' : '') + "It's your turn to " + taskName
+    var alertTitle = (isReminder ? 'REMINDER - ' : '') + taskName 
+    var alertMsg = "It's your turn next"
     console.log(alertMsg)
 
     Parse.Push.send({
         where: query,
         data: {
-            alert: alertMsg,
+            alert: {
+                    "title": alertTitle,
+                    "body": alertMsg
+                    },
             //expiration_time: getNextWeek(),
             badge: "Increment", //ios only
             sound: "bamboo.caf" //ios only //doesn't work, u need to have those sound files in your app
