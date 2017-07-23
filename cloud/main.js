@@ -58,7 +58,38 @@ Parse.Cloud.define("sendNotification", function(request, response) {
     });
 });
 
-function getNextWeek(){
+function notifyUserAboutNewTask(username, taskName){
+    
+    var msg = 'Notifying ' + username + ' about new task ' + taskName
+    console.log(msg)
+
+    var query = new Parse.Query(Parse.Installation);
+    query.equalTo('username', username);
+
+    Parse.Push.send({
+        where: query,
+        data: {
+            alert: {
+                    "title": "New task to work on",
+                    "body": "You have been tasked to " + taskName
+                    },
+            //expiration_time: getNextWeek(),
+            badge: "Increment", //ios only
+            sound: "bamboo.caf" //ios only //doesn't work, u need to have those sound files in your app
+            //,title: "" //android only
+        }
+    }, {
+        useMasterKey: true,
+        success: function() {
+            console.log('Done ' + msg)
+        },
+        error: function(error) {
+            console.log('Error ' + msg)
+        }
+    });
+}
+
+function getNextWeek() {
     var today = new Date();
     var nextweek = new Date(today.getFullYear(), today.getMonth(), today.getDate()+7);
     return nextweek;
@@ -218,6 +249,10 @@ function fetchUserAndAddtoTask(username, task, raiseResponse, response) {
                 task.add("Members", Parse.User.createWithoutData(u.id));
                 task.save();
                 console.log('Member added successfully to task -> ' + task.id)
+
+                // This member is a registered user, so send a notification to him saying that he/she has been added to the task
+                notifyUserAboutNewTask(u.get("username"), task.get("Name"))
+                
                 if(raiseResponse) {
                     console.log('Raising response')
                     response.success('Task found and hopefully all members have been added to the task, and task to the members.')
