@@ -70,8 +70,8 @@ function notifyUserAboutNewTask(username, taskName){
         where: query,
         data: {
             alert: {
-                    "title": "New task to work on",
-                    "body": "You have been tasked to " + taskName
+                    "title": "New Task",
+                    "body": "You have been added to task " + taskName
                     },
             //expiration_time: getNextWeek(),
             badge: "Increment", //ios only
