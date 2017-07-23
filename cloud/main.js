@@ -10,7 +10,7 @@ Parse.Cloud.define("sendVerificationCode", function(request, response) {
     var verificationCode = 10000 + Math.floor(Math.random() * 89999);
 
     twilio.sendSms({
-        From: "7864204937",
+        From: "+17864204937",
         To: request.params["phoneNumber"],
         Body: "Your verification code is " + verificationCode
     }, function(err, responseData) {
@@ -59,7 +59,6 @@ Parse.Cloud.define("sendNotification", function(request, response) {
 });
 
 function notifyUserAboutNewTask(username, taskName){
-    
     var msg = 'Notifying ' + username + ' about new task ' + taskName
     console.log(msg)
 
@@ -85,6 +84,20 @@ function notifyUserAboutNewTask(username, taskName){
         },
         error: function(error) {
             console.log('Error ' + msg)
+        }
+    });
+}
+
+function sendSMStoUserAboutNewTask(username, taskName){
+    twilio.sendSms({
+        From: "+17864204937",
+        To: username,
+        Body: "You have been added to " + taskName + " task group on YourTurn. Download YourTurn today <LINK TBD>"
+    }, function(err, responseData) {
+        if (err) {
+            response.error(err);
+        } else {
+            response.success(verificationCode);
         }
     });
 }
@@ -284,6 +297,7 @@ function createNewParseUser(username, task, raiseResponse, response) {
             task.add("Members", Parse.User.createWithoutData(u.id));
             task.save();
             console.log('Member ' + u.get("username") + ' added to task')
+            sendSMStoUserAboutNewTask(u.get("username"), task.get("Name"))
             if(raiseResponse) {
                 console.log('Raising success response after signing up user')
                 response.success('Task found and hopefully all members have been added to the task, and task to the members.')
