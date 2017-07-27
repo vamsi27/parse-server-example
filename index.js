@@ -29,7 +29,7 @@ var api = new ParseServer({
       {
         pfx: 'YourTurnP12Certificate.p12',
         passphrase: 'Krishna1!', // optional password to your p12/PFX //TODO: setup a password
-        bundleId: 'com.vmzi.YourTurn', //bundleId is depracated, use topic instead
+        //bundleId: 'com.vmzi.YourTurn', //bundleId is depracated, use topic instead
         topic: 'com.vmzi.YourTurn', 
         production: false
       }
