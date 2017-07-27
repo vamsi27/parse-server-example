@@ -26,20 +26,20 @@ var api = new ParseServer({
       //apiKey: '...'
     //},
     ios: //[
-      //{
-        //pfx: 'YourTurnP12Certificate.p12',
-        //passphrase: 'Krishna1!', // optional password to your p12/PFX //TODO: setup a password
-        ////bundleId: 'com.vmzi.YourTurn', //bundleId is depracated, use topic instead
-        //topic: 'com.vmzi.YourTurn', 
-        //production: false
-      //}
-      //,
       {
-        pfx: 'NewDP12.p12',
-        passphrase: 'Krishna1!', 
+        pfx: 'YourTurnP12Certificate.p12',
+        passphrase: 'Krishna1!', // optional password to your p12/PFX //TODO: setup a password
+        //bundleId: 'com.vmzi.YourTurn', //bundleId is depracated, use topic instead
         topic: 'com.vmzi.YourTurn', 
         production: false
       }
+      //,
+      //{
+        //pfx: 'DistributionP12.p12',
+        //passphrase: 'Krishna1!', 
+        //topic: 'com.vmzi.YourTurn', 
+        //production: true
+      //}
     //]
   }
 });
