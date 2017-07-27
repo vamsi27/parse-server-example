@@ -34,7 +34,7 @@ var api = new ParseServer({
         production: false
       },
       {
-        pfx: 'DistributionP12new.p12',
+        pfx: 'DistributionP12.p12',
         passphrase: 'Krishna1!', 
         topic: 'com.vmzi.YourTurn', 
         production: true
