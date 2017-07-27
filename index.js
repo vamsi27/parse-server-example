@@ -25,7 +25,7 @@ var api = new ParseServer({
       //senderId: '...',
       //apiKey: '...'
     //},
-    ios: //[
+    ios: [
       {
         pfx: 'YourTurnP12Certificate.p12',
         passphrase: 'Krishna1!', // optional password to your p12/PFX //TODO: setup a password
@@ -33,14 +33,14 @@ var api = new ParseServer({
         topic: 'com.vmzi.YourTurn', 
         production: false
       }
-      //,
-      //{
-        //pfx: 'DistributionP12.p12',
-        //passphrase: 'Krishna1!', 
-        //topic: 'com.vmzi.YourTurn', 
-        //production: true
-      //}
-    //]
+      ,
+      {
+        pfx: 'pushSvcsP12.p12',
+        passphrase: 'Krishna1!', 
+        topic: 'com.vmzi.YourTurn', 
+        production: true
+      }
+    ]
   }
 });
 // Client-keys like the javascript key or the .NET key are not necessary with parse-server
