@@ -95,9 +95,9 @@ function sendSMStoUserAboutNewTask(username, taskName){
         Body: "You have been added to " + taskName + " task group on YourTurn. Download YourTurn today <LINK TBD>"
     }, function(err, responseData) {
         if (err) {
-            response.error(err);
+            console.log('Error in sending sms to user about new task.')
         } else {
-            response.success(verificationCode);
+            console.log('Success sending sms to user about new task.')
         }
     });
 }
