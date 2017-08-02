@@ -92,7 +92,7 @@ function sendSMStoUserAboutNewTask(username, taskName){
     twilio.sendSms({
         From: "+17864204937",
         To: username,
-        Body: "You have been added to " + taskName + " task group on YourTurn. Download YourTurn today <LINK TBD>"
+        Body: "You have been added to " + taskName + " group on YourTurnNext. Download YourTurnNext today for iOS at http://bit.ly/2f6unGj "
     }, function(err, responseData) {
         if (err) {
             console.log('Error in sending sms to user about new task.')
